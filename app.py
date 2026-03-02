@@ -13,6 +13,7 @@ os.makedirs(QR_FOLDER, exist_ok=True)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -28,13 +29,12 @@ def login():
         </form>
     '''
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    ...
 
 @app.route('/logout')
 def logout():
-    ...
+    session.pop('admin', None)
+    return redirect(url_for('login'))
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -42,7 +42,6 @@ def index():
         return redirect(url_for('login'))
 
     qr_image = None
-    ...
 
     if request.method == 'POST':
         video = request.files['video']
@@ -60,6 +59,7 @@ def index():
             qr_image = 'qr/' + video.filename + ".png"
 
     return render_template('index.html', qr_image=qr_image)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
