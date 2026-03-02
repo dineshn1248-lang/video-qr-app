@@ -19,8 +19,14 @@
 
     <br><br>
 
+    <!-- Download Button -->
     <a href="{{ url_for('static', filename=qr_image) }}" download>
         <button>Download QR Code</button>
+    </a>
+
+    <!-- Logout Button -->
+    <a href="{{ url_for('logout') }}">
+        <button style="float:right; background:red;">Logout</button>
     </a>
 {% endif %}
 

@@ -1,8 +1,9 @@
 import os
 import qrcode
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
+app.secret_key = "dinesh_secret_123"
 
 UPLOAD_FOLDER = 'static/uploads'
 QR_FOLDER = 'static/qr'
@@ -12,9 +13,36 @@ os.makedirs(QR_FOLDER, exist_ok=True)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        password = request.form['password']
+        if password == "1234":  # change password here
+            session['admin'] = True
+            return redirect(url_for('index'))
+    return '''
+        <h2>Admin Login</h2>
+        <form method="POST">
+            <input type="password" name="password" placeholder="Enter password">
+            <button type="submit">Login</button>
+        </form>
+    '''
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    ...
+
+@app.route('/logout')
+def logout():
+    ...
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    if not session.get('admin'):
+        return redirect(url_for('login'))
+
     qr_image = None
+    ...
 
     if request.method == 'POST':
         video = request.files['video']
