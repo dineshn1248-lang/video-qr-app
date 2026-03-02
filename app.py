@@ -17,7 +17,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def login():
     if request.method == 'POST':
         password = request.form['password']
-        if password == "1234":  # change password here
+        if password == "1234":
             session['admin'] = True
             return redirect(url_for('index'))
     return '''
